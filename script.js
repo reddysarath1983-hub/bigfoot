@@ -44,7 +44,7 @@ sr.reveal('.reveal-scale', { scale: 0.95, duration: 2000, distance: '0px' });
 
 // WhatsApp Enquiry Function
 function enquireProduct(productName) {
-    const phoneNumber = '919876543210'; 
+    const phoneNumber = '919900842050'; 
     const message = `Greetings. I would like to inquire about the artisanal "${productName}". Could you please provide details?`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     
