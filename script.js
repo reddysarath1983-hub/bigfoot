@@ -50,3 +50,61 @@ function enquireProduct(productName) {
     
     window.open(whatsappUrl, '_blank');
 }
+
+// Page Transition Logic
+const transitionOverlay = document.querySelector('.page-transition');
+const navLinks = document.querySelectorAll('a[href^="#"]');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+            e.preventDefault();
+            
+            // Sweep in
+            transitionOverlay.classList.add('active');
+            
+            setTimeout(() => {
+                // Instantly jump to the new section while the screen is covered
+                lenis.scrollTo(targetElement, { immediate: true });
+                ScrollReveal().sync();
+                
+                // Sweep out to reveal the new section
+                transitionOverlay.classList.remove('active');
+                transitionOverlay.classList.add('exit');
+                
+                // Reset the overlay position after the animation finishes
+                setTimeout(() => {
+                    transitionOverlay.classList.remove('exit');
+                }, 600);
+            }, 600); // 600ms matches the CSS transition duration
+        }
+    });
+});
+
+// Stacking Slides Logic
+function updateStickyTops() {
+    const sections = document.querySelectorAll('section, footer');
+    sections.forEach((sec, index) => {
+        sec.style.position = 'sticky';
+        sec.style.zIndex = index + 1;
+        
+        const height = sec.offsetHeight;
+        const windowHeight = window.innerHeight;
+        
+        if (height > windowHeight) {
+            sec.style.top = `${windowHeight - height}px`;
+        } else {
+            sec.style.top = '0px';
+        }
+    });
+}
+
+window.addEventListener('load', updateStickyTops);
+window.addEventListener('resize', updateStickyTops);
+setTimeout(updateStickyTops, 500);
+setTimeout(updateStickyTops, 2000);
